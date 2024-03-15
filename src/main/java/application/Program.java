@@ -23,10 +23,17 @@ public class Program {
         System.out.println("=== TESTE 1 : seller findById ===");
         Seller seller = sellerDao.findById(3);
         System.out.println(seller);
+        System.out.println();
 
         System.out.println("=== TESTE 2 : seller findByDepartment ===");
         List<Seller> list = sellerDao.findByDepartment(departament);
         list.forEach(System.out::println);
+        System.out.println();
+
+        System.out.println("=== TESTE 3 : seller findAll ===");
+        list = sellerDao.findAll();
+        list.forEach(System.out::println);
+        System.out.println();
     }
 }
 
