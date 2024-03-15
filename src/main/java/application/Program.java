@@ -10,10 +10,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args)  {
 
+
+        Scanner scanner = new Scanner(System.in);
         //Department departament = new Department(2,null);
         Department departament = new Department(2,"Livraria");
 
@@ -47,6 +50,13 @@ public class Program {
         seller.setName("Martha");
         sellerDao.update(seller);
         System.out.println("Atualização completa");
+
+        System.out.println("\n=== TESTE 6 : seller Delete ===");
+        System.out.println("Escreva um Id para o teste de deletar: ");
+        int id = scanner.nextInt();
+        sellerDao.deleteById(id);
+        System.out.println("Seller deletado");
+        scanner.close();
 
     }
 }
