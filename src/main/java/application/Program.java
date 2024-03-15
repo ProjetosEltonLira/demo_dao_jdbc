@@ -37,12 +37,16 @@ public class Program {
         list.forEach(System.out::println);
         System.out.println();
 
-        System.out.println();
-
-        System.out.println("=== TESTE 4 : seller insert ===");
+        System.out.println("\n=== TESTE 4 : seller insert ===");
         seller = new Seller(null,"Bob","Bob@lee.com.br",new Date(),3000.00,departament);
         sellerDao.insert(seller);
         System.out.println("Inserido! Nº id " + seller.getId());
+
+        System.out.println("\n=== TESTE 5 : seller update ===");
+        seller = sellerDao.findById(1);
+        seller.setName("Martha");
+        sellerDao.update(seller);
+        System.out.println("Atualização completa");
 
     }
 }
