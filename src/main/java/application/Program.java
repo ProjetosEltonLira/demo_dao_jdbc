@@ -14,6 +14,7 @@ public class Program {
         //Department departament = new Department(1,"Livros");
        //Seller seller = new Seller(1,"Bob","Bob@lee.com.br",new Date(),3000.00,departament);
 
+        System.out.println("=== TESTE 1 : seller findById ===");
         //SellerDao sellerDao = new SellerDaoJDBC(Database.getConexao()); //Funciona também
         SellerDao sellerDao = DaoFactory.createSellerDAO(); //retorna a conexão com o banco de dados
 
@@ -21,3 +22,4 @@ public class Program {
         System.out.println(seller);
     }
 }
+

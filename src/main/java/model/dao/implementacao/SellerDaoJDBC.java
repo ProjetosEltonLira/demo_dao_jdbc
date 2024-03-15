@@ -38,7 +38,7 @@ public class SellerDaoJDBC implements SellerDao {
     @Override
     public Seller findById(Integer id) {
         PreparedStatement statement = null;
-        ResultSet result = null;
+        ResultSet resultSet = null;
         try {
             statement = conexao.prepareStatement(
                     "SELECT seller.*," +
@@ -47,34 +47,35 @@ public class SellerDaoJDBC implements SellerDao {
                             "ON seller.DepartmentId = department.Id " +
                             "WHERE seller.Id = ?");
             statement.setInt(1, id);
-            result = statement.executeQuery();
+            resultSet = statement.executeQuery();
 
             //encontrou registro
-            if (result.next()) {
-                Department department = new Department(
-                        result.getInt("DepartmentId"),
-                        result.getString("DepName"));
-                //department.setId(result.getInt("DepartmentId"));
-                //department.setId(result.getString("DepName"));
-                Seller seller = new Seller(
-                        result.getInt("Id"),
-                        result.getString("Name"),
-                        result.getString("Email"),
-                        result.getDate("BirthDate"),
-                        result.getDouble("BaseSalary"),
-                        department);
+            if (resultSet.next()) {
+                Department department = instanciarDepartamento(resultSet);
+                Seller seller = instanciarSeller(resultSet, department);
                 return seller;
             }
             return null;
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             Database.closeStatement(statement);
-            Database.closeResultSet(result);
+            Database.closeResultSet(resultSet);
         }
+    }
 
+    private static Seller instanciarSeller(ResultSet result, Department department) throws SQLException {
+        return new Seller(result.getInt("Id"),
+                result.getString("Name"),
+                result.getString("Email"),
+                result.getDate("BirthDate"),
+                result.getDouble("BaseSalary"),
+                department);
+    }
 
+    private static Department instanciarDepartamento(ResultSet result) throws SQLException {
+        return new Department(result.getInt("DepartmentId"),
+                result.getString("DepName"));
     }
 
     @Override
