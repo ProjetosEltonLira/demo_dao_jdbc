@@ -25,7 +25,34 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public void insert(Seller seller) {
+        PreparedStatement statement = null;
+        try {
+            statement = conexao.prepareStatement("INSERT INTO seller " +
+                    " (Name, Email, BirthDate, BaseSalary, DepartmentId) " +
+                    " VALUES " +
+                    " (?, ?, ?, ?, ?)",statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, seller.getName());
+            statement.setString(2, seller.getEmail());
+            statement.setDate(3, new java.sql.Date(seller.getBirthDate().getTime()));
+            statement.setDouble(4, seller.getBaseSalary());
+            statement.setInt(5, seller.getDepartment().getId());
 
+            int linhasAlteradas = statement.executeUpdate();
+            if (linhasAlteradas > 0) {
+                ResultSet resultSet = statement.getGeneratedKeys(); //Pega o retorno do id e coloca num ResultSet.
+                if (resultSet.next()){
+                   seller.setId(resultSet.getInt(1));//Coloca o id no objeto seller.
+                }
+                Database.closeResultSet(resultSet);
+            }
+            else {
+                throw new DbException("Erro inesperado, nenhuma linha foi alterada");
+            }
+        }catch (SQLException e){
+            throw new DbException(e.getMessage());
+        }finally {
+            Database.closeStatement(statement);
+        }
     }
 
     @Override

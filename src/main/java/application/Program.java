@@ -6,15 +6,17 @@ import model.dao.implementacao.SellerDaoJDBC;
 import model.entities.Department;
 import model.entities.Seller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Program {
-    public static void main(String[] args){
+    public static void main(String[] args)  {
 
         //Department departament = new Department(2,null);
         Department departament = new Department(2,"Livraria");
-        //Seller seller = new Seller(1,"Bob","Bob@lee.com.br",new Date(),3000.00,departament);
+
 
 
         //SellerDao sellerDao = new SellerDaoJDBC(Database.getConexao()); //Funciona também
@@ -34,6 +36,14 @@ public class Program {
         list = sellerDao.findAll();
         list.forEach(System.out::println);
         System.out.println();
+
+        System.out.println();
+
+        System.out.println("=== TESTE 4 : seller insert ===");
+        seller = new Seller(null,"Bob","Bob@lee.com.br",new Date(),3000.00,departament);
+        sellerDao.insert(seller);
+        System.out.println("Inserido! Nº id " + seller.getId());
+
     }
 }
 
